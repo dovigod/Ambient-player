@@ -1,9 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
-import {} from 'react-router-dom';
+import './reset.css';
+import Routes from 'routes/index';
 
 function App() {
-	return <div className="App">hello</div>;
+	return (
+		<div className="App">
+			<Routes />
+		</div>
+	);
 }
 
 export default App;
