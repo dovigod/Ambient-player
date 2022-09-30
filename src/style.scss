@@ -1,0 +1,6 @@
+@use './styleConfig/colors.scss';
+@use './styleConfig/keyframes.scss';
+
+body {
+	background: var(--color-black-300);
+}

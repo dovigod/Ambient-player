@@ -1,43 +1,35 @@
-import { useState, useEffect, useRef } from 'react';
-import { Canvas, useFrame, extend, useThree, ReactThreeFiber, MeshProps } from '@react-three/fiber';
 import styled from 'styled-components';
-import { BufferGeometry, Material, Mesh } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Disk from 'components/Disk';
+import endPoint from 'routes/endPoint';
+import AxiosClient from 'utils/AxiosClient';
+import { useBackground } from 'hooks/useBackground';
+import musicMap from 'musicMap';
 
-extend({ OrbitControls });
-const Orbit = () => {
-	const { camera, gl } = useThree();
-	return <orbitControls args={[camera, gl.domElement]} />;
-};
-const Box = (props: MeshProps) => {
-	const ref = useRef<Mesh<BufferGeometry, Material | Material[]>>(null);
-	useFrame((state) => {
-		const box = ref.current as Mesh;
-		box.rotation.x += 0.01;
-		box.rotation.y += 0.01;
-	});
-
-	return (
-		<mesh ref={ref} {...props}>
-			<boxBufferGeometry />
-			<meshBasicMaterial color="blue" />
-		</mesh>
-	);
-};
 const Landing = () => {
+	// console.log(endPoint.getLocation('Seoul'));
+	// AxiosClient.get(endPoint.getLocation('Seoul')).then((res: any) => console.dir(res.json()));
+	const { background, setBG } = useBackground();
 	return (
-		<Container>
-			<Canvas style={{ background: '#FFE6A7' }} camera={{ position: [3, 3, 3] }}>
-				<Box position={[-1, 0, -5]} />
-				<axesHelper args={[5]} />
-				<Orbit />
-			</Canvas>
+		<Container src={background}>
+			<Main>
+				<Disk type={musicMap.city_night} />
+			</Main>
 		</Container>
 	);
 };
 export default Landing;
 
-const Container = styled.div`
+const Container = styled.div<{ src: string }>`
 	width: 100vw;
 	height: 100vh;
+	background: url(${({ src }) => src});
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: flex;
+	align-items: center;
+	transition: all 0.4s ease;
+`;
+
+const Main = styled.main`
+	z-index: 1;
 `;

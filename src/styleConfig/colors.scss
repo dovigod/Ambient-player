@@ -1,0 +1,11 @@
+@use './variables/_colors' as *;
+
+:root{
+  --color-white: #fff;
+  --color-black: #000;
+  @each $color, $shades in $colors {
+    @each $shade, $value in $shades {
+      --color-#{"" + $color}-#{$shade}: #{$value};
+    }
+  }
+}
