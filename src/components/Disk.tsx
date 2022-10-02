@@ -13,9 +13,10 @@ interface DiskProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDiv
 	setBackground: any;
 	musicSelected: number | null;
 	key: Key | null | undefined;
+	setShow: any;
 }
 
-const Disk = ({ key, type, tilt, setMusicSelected, setBackground, musicSelected, ...rest }: DiskProps) => {
+const Disk = ({ key, type, tilt, setMusicSelected, setBackground, musicSelected, setShow, ...rest }: DiskProps) => {
 	const [selected, setSelected] = useState(false);
 	const { setMusic, pause, play, state, initializePlayer, isInitializationFin, SpacePressEvent }: any = usePlayer();
 	const [clicked, setClicked] = useState(false);
@@ -38,6 +39,7 @@ const Disk = ({ key, type, tilt, setMusicSelected, setBackground, musicSelected,
 			setClicked(false);
 			rotationRef.current = 0;
 			initializePlayer();
+			setShow(false);
 		},
 		musicSelected === type.id
 	);
@@ -96,11 +98,15 @@ const Disk = ({ key, type, tilt, setMusicSelected, setBackground, musicSelected,
 	let id: NodeJS.Timeout | string | number | undefined;
 
 	const mouseenterHandler = () => {
-		id = setTimeout(() => setBackground(type.background), 500);
+		id = setTimeout(() => {
+			setBackground(type.background);
+			setShow(true);
+		}, 200);
 	};
 	const mouseleaveHandler = () => {
 		clearTimeout(id);
-		setBackground('');
+		setShow(false);
+		setTimeout(() => setBackground(''), 200);
 	};
 
 	return selected ? (

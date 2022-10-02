@@ -2,43 +2,56 @@ import styled from 'styled-components';
 import Disk from 'components/Disk';
 import { useBackground } from 'hooks/useBackground';
 import musicMap from 'musicMap';
-import { Key, useState } from 'react';
+import { useState } from 'react';
 
 const Landing = () => {
-	const [musicSelected ,setMusicSelected] = useState<number | null>(null);
-
+	const [musicSelected, setMusicSelected] = useState<number | null>(null);
 
 	const { background, setBackground } = useBackground();
+	const [show, setShow] = useState(false);
 
 	return (
-		<Container src={background} >
+		<Container>
+			<Background src={background} show={show} />
 
 			<Main>
 				<Carousel>
-				{
-					musicMap.map((record , idx) => {
-
-
+					{musicMap.map((record, idx) => {
 						let tilt = null;
 
-						if(idx === 0){
-							tilt ='left'
-						}else if(idx === 3){
-							tilt ='right'
+						if (idx === 0) {
+							tilt = 'left';
+						} else if (idx === 3) {
+							tilt = 'right';
 						}
 
-						if(musicSelected){
-							if(record.id === musicSelected){
-
-								return <Disk key={idx} type={record} setMusicSelected={setMusicSelected} musicSelected={musicSelected} setBackground={setBackground}/>
+						if (musicSelected) {
+							if (record.id === musicSelected) {
+								return (
+									<Disk
+										key={idx}
+										type={record}
+										setMusicSelected={setMusicSelected}
+										musicSelected={musicSelected}
+										setBackground={setBackground}
+										setShow={setShow}
+									/>
+								);
 							}
-						}else{
-							return <Disk key={idx} type={record} tilt={tilt as string} setMusicSelected={setMusicSelected} musicSelected={musicSelected} setBackground={setBackground}/>
+						} else {
+							return (
+								<Disk
+									key={idx}
+									type={record}
+									tilt={tilt as string}
+									setMusicSelected={setMusicSelected}
+									musicSelected={musicSelected}
+									setBackground={setBackground}
+									setShow={setShow}
+								/>
+							);
 						}
-						
-
-				}  )
-				}
+					})}
 				</Carousel>
 			</Main>
 		</Container>
@@ -46,7 +59,16 @@ const Landing = () => {
 };
 export default Landing;
 
-const Container = styled.div<{ src: string }>`
+const Container = styled.div`
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	min-width: 1000px;
+`;
+const Background = styled.div<{ src: string; show: boolean }>`
 	width: 100vw;
 	height: 100vh;
 	background: url(${({ src }) => src});
@@ -56,8 +78,14 @@ const Container = styled.div<{ src: string }>`
 	align-items: center;
 	transition: all 0.4s ease;
 	overflow-x: hidden;
-	overflow-y : hidden;
-	min-width : 1000px;
+	overflow-y: hidden;
+	min-width: 1000px;
+	transition: opacity 0.3s ease;
+	position: fixed;
+	z-index: 0;
+	top: 0;
+	left: 0;
+	opacity: ${({ show }) => (show ? '1' : '0')};
 `;
 
 const Main = styled.main`
@@ -67,21 +95,19 @@ const Main = styled.main`
 
 const Carousel = styled.div`
 	display: flex;
-	justify-content:center;
+	justify-content: center;
 	align-items: center;
 	position: relative;
 	width: 100%;
-	min-width : 1000px;
-
+	min-width: 1000px;
 `;
 
-
 const Volume = styled.div`
-	width : 200px;
+	width: 200px;
 	height: 20px;
-	background-color: rgba(255,255,255,0.5);
+	background-color: rgba(255, 255, 255, 0.5);
 	border-radius: 15px;
-	position :fixed;
-	bottom : 40px;
-	left : calc(50% - 100px);
+	position: fixed;
+	bottom: 40px;
+	left: calc(50% - 100px);
 `;
