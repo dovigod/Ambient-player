@@ -1,10 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 import Landing from 'pages/Landing';
 import { PlayerContextProvider as PlayerStore } from 'hooks/usePlayer';
 import { BackgroundStore } from 'hooks/useBackground';
 const Routing = () => {
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<Routes>
 				<Route
 					path="/"
@@ -16,11 +16,9 @@ const Routing = () => {
 						</PlayerStore>
 					}
 				/>
-				{/* <Route path='*' element={
-					<Navigate to='/'/>
-				}/> */}
+				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
-		</BrowserRouter>
+		</HashRouter>
 	);
 };
 

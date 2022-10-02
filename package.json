@@ -1,7 +1,7 @@
 {
 	"name": "ambient-player",
 	"version": "0.1.0",
-	"private": true,
+	"private": "false",
 	"homepage": ".",
 	"dependencies": {
 		"@babel/core": "^7.16.0",
