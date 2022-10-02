@@ -1,19 +1,18 @@
 import { createContext, FC, useContext, useEffect, useState, SetStateAction, Dispatch } from 'react';
 
-const bgType = {
-	a: '123'
-};
+
 const backgroundContext = createContext<[string, Dispatch<SetStateAction<string>>] | null>(null);
 
 export const BackgroundStore = ({ children }: { children: React.ReactNode }) => {
 	const [background, setBackground] = useState<string>('');
 
-	const findInitialBackground = () => {
-		setBackground('assets/gif/rain.gif');
-	};
-	useEffect(() => {
-		findInitialBackground();
-	}, []);
+	//'assets/gif/city_night.gif'
+	// const findInitialBackground = () => {
+	// 	setBackground(null);
+	// };
+	// useEffect(() => {
+	// 	findInitialBackground();
+	// }, []);
 
 	return <backgroundContext.Provider value={[background, setBackground]}>{children}</backgroundContext.Provider>;
 };
@@ -23,10 +22,12 @@ export const useBackground = () => {
 		backgroundContext as any
 	);
 
-	const setBG = (type: string) => {};
+	// const setBG = (type: string) => {
+	// 	set
+	// };
 
 	return {
 		background,
-		setBG
+		setBackground
 	};
 };

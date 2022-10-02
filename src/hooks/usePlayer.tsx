@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, ReactNode, useRef, useEffect } from 'react';
+import { useContext, createContext, useState, ReactNode, useRef, useEffect ,useCallback} from 'react';
 
 const playerContext = createContext<any | undefined | null>(null);
 export enum playerState {
@@ -13,7 +13,6 @@ export const PlayerContextProvider = ({ children }: { children: ReactNode }) => 
 	const [state, setState] = useState<playerState>(playerState.INIT);
 	const [playlist, setPlaylist] = useState([]);
 	const playerRef = useRef(player);
-
 	useEffect(() => {
 		playerRef.current.addEventListener('canplay', () => setState(playerState.READY));
 		playerRef.current.addEventListener('ended', () => setState(playerState.FINISH));
@@ -31,9 +30,24 @@ export const PlayerContextProvider = ({ children }: { children: ReactNode }) => 
 export const usePlayer = () => {
 	const [player, playlist, setPlaylist, state, setState]: any = useContext(playerContext);
 
-	useEffect(() => {
-		console.log(state);
-	}, [state]);
+
+	const pause = () => {
+		player.pause();
+	};
+	const play = () => {
+		player.play();
+	};
+	const SpacePressEvent = useCallback((e : any) => {
+		if(e.code ==='Space'){
+			console.log(state)
+			if(state === playerState.PLAYING){
+				pause();
+			} 
+			else if(state === playerState.PAUSE || state === playerState.READY || state === playerState.FINISH){ play()}
+		}
+
+	},[state])
+
 
 	if (!player) {
 		console.log("Player isn't initialized. Check player context for detail");
@@ -42,12 +56,7 @@ export const usePlayer = () => {
 	const setMusic = (src: string) => {
 		player.src = src;
 	};
-	const pause = () => {
-		player.pause();
-	};
-	const play = () => {
-		player.play();
-	};
+
 	const addToPlaylist = (src: string) => {
 		setPlaylist((current: string[]) => current.push(src));
 	};
@@ -57,6 +66,13 @@ export const usePlayer = () => {
 		setState(playerState.INIT);
 	};
 
+	const isInitializationFin = () => {
+		if(player.src){
+			return true;
+		}
+		return false;
+	}
+	
 	return {
 		player,
 		setMusic,
@@ -65,7 +81,9 @@ export const usePlayer = () => {
 		addToPlaylist,
 		play,
 		state,
-		initializePlayer
+		initializePlayer,
+		isInitializationFin,
+		SpacePressEvent
 	};
 };
 

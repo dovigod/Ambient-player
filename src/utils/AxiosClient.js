@@ -1,7 +1,7 @@
 import axios from 'axios';
 const AxiosClient = axios.create();
 
-AxiosClient.defaults.baseURL = 'https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/';
+AxiosClient.defaults.baseURL = 'http://localhost:3001/';
 
 AxiosClient.defaults.headers = {
 	'Content-Type': 'application/json',
@@ -11,6 +11,9 @@ AxiosClient.defaults.headers = {
 
 AxiosClient.defaults.withCredentials = true;
 
+AxiosClient.defaults.onDownloadProgress = (res) => {
+	
+}
 // Response interceptor to remove the local storage user whenever server detects no userId is present in session
 // AxiosClient.interceptors.response.use(
 //   function (response) {
@@ -32,6 +35,6 @@ AxiosClient.defaults.withCredentials = true;
 // );
 
 // All request will wait 5 seconds before timeout
-AxiosClient.defaults.timeout = 5000;
+AxiosClient.defaults.timeout = 15000;
 
 export default AxiosClient;

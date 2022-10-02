@@ -14,7 +14,7 @@ const Cursive = ({ elem = 'span', children, size, margin, padding, ...rest }: Cu
 		{
 			style: {
 				fontFamily: `'Pacifico', cursive`,
-				fontSize: typeof size === 'number' ? size + 'px' : size,
+				fontSize: typeof size === 'number' ? size + 'em' : size,
 				margin,
 				padding
 			},

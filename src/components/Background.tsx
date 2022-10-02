@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useBackground } from 'hooks/useBackground';
 
 export const Background = () => {
-	const { background, setBG } = useBackground();
+	const { background } = useBackground();
 	return <Container src={background as string}></Container>;
 };
 
