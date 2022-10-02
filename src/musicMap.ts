@@ -18,7 +18,7 @@ const MusicMap = [
 		type: 'city_night',
 		background: process.env.PUBLIC_URL + '/assets/gif/city_night.gif',
 		music: getMp3File('city-lights'),
-		image: COVER_IMAGE + 'city_night.gif',
+		image: COVER_IMAGE + '/city_night.GIF',
 		diskImage: DISK_IMAGE + 'city_night.webp',
 		title: 'City Night'
 	},
@@ -27,7 +27,7 @@ const MusicMap = [
 		type: 'room_night',
 		background: process.env.PUBLIC_URL + '/assets/gif/home-alone2.webp',
 		music: getMp3File('room_night'),
-		image: COVER_IMAGE + 'room_night.gif',
+		image: COVER_IMAGE + 'room_night.GIF',
 		diskImage: DISK_IMAGE + 'room_night.webp',
 		title: 'Alone at 3AM'
 	},
