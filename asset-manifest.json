@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ambient-player/static/css/main.e056015c.css",
+    "main.js": "/ambient-player/static/js/main.353f1e67.js",
+    "index.html": "/ambient-player/index.html",
+    "main.e056015c.css.map": "/ambient-player/static/css/main.e056015c.css.map",
+    "main.353f1e67.js.map": "/ambient-player/static/js/main.353f1e67.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e056015c.css",
+    "static/js/main.353f1e67.js"
+  ]
+}
