@@ -3,21 +3,21 @@ import styled from 'styled-components';
 import Cursive from 'components/Basics/Cursive';
 import { usePlayer, playerState } from 'hooks/usePlayer';
 import useAnimationFrame from 'hooks/useAnimationFrame';
-import useOutsideDetector from 'hooks/useOutsideDetector'
+import useOutsideDetector from 'hooks/useOutsideDetector';
 import { MusicMapType } from 'musicMap';
 
 interface DiskProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-	type : MusicMapType,
-	tilt? : string | undefined,
-	setMusicSelected : any,
-	setBackground: any,
-	musicSelected : number | null,
-	key : Key | null | undefined
+	type: MusicMapType;
+	tilt?: string | undefined;
+	setMusicSelected: any;
+	setBackground: any;
+	musicSelected: number | null;
+	key: Key | null | undefined;
 }
 
-const Disk = ({key, type ,tilt,setMusicSelected,setBackground,musicSelected, ...rest }:DiskProps) => {
+const Disk = ({ key, type, tilt, setMusicSelected, setBackground, musicSelected, ...rest }: DiskProps) => {
 	const [selected, setSelected] = useState(false);
-	const { setMusic, pause, play, state, initializePlayer,isInitializationFin,SpacePressEvent }: any = usePlayer();
+	const { setMusic, pause, play, state, initializePlayer, isInitializationFin, SpacePressEvent }: any = usePlayer();
 	const [clicked, setClicked] = useState(false);
 	const [popRecord, setPopRecord] = useState(false);
 	const [hideCover, setHideCover] = useState(false);
@@ -27,16 +27,20 @@ const Disk = ({key, type ,tilt,setMusicSelected,setBackground,musicSelected, ...
 	const coverRef = useRef<HTMLDivElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 
-	useOutsideDetector([recordRef,coverRef,containerRef] , () => {
-		setMusicSelected(false)
-		setSelected(false)
-		setHideCover(false)
-		setReady(false);
-		setPopRecord(false)
-		setClicked(false);
-		rotationRef.current = 0;
-		initializePlayer();
-	} , musicSelected === type.id )
+	useOutsideDetector(
+		[recordRef, coverRef, containerRef],
+		() => {
+			setMusicSelected(false);
+			setSelected(false);
+			setHideCover(false);
+			setReady(false);
+			setPopRecord(false);
+			setClicked(false);
+			rotationRef.current = 0;
+			initializePlayer();
+		},
+		musicSelected === type.id
+	);
 
 	const rotate = useCallback(() => {
 		if (recordRef.current) {
@@ -54,8 +58,7 @@ const Disk = ({key, type ,tilt,setMusicSelected,setBackground,musicSelected, ...
 		} else if (!ready) {
 			setPopRecord(true);
 			setTimeout(() => {
-				
-				if(window.innerWidth > 1070){
+				if (window.innerWidth > 1070) {
 					setHideCover(true);
 				}
 				setReady(true);
@@ -73,59 +76,55 @@ const Disk = ({key, type ,tilt,setMusicSelected,setBackground,musicSelected, ...
 		}
 	}, [ready, state]);
 
-
-
 	useEffect(() => {
-		window.addEventListener('resize' , () => {
+		window.addEventListener('resize', () => {
 			const width = window.innerWidth;
 
-			if(width > 1070){
-				if(clicked && popRecord){
-					setHideCover(true)
+			if (width > 1070) {
+				if (clicked && popRecord) {
+					setHideCover(true);
 				}
-			}else{
-				if(clicked && popRecord){
-					setHideCover(true)
+			} else {
+				if (clicked && popRecord) {
+					setHideCover(true);
 				}
 			}
-		})
-		window.addEventListener('keypress' , SpacePressEvent)
-	},[])
+		});
+		window.addEventListener('keypress', SpacePressEvent);
+	}, []);
 
-
-	let id : NodeJS.Timeout | string | number | undefined;
+	let id: NodeJS.Timeout | string | number | undefined;
 
 	const mouseenterHandler = () => {
-		id = setTimeout(() => setBackground(type.background) ,500)
-	}
-	const mouseleaveHandler = () =>{
+		id = setTimeout(() => setBackground(type.background), 500);
+	};
+	const mouseleaveHandler = () => {
 		clearTimeout(id);
-		setBackground('')
-	}
+		setBackground('');
+	};
 
-	return selected  ? (
+	return selected ? (
 		<Container ref={containerRef} onClick={openCover} selected={selected} tilt={tilt}>
 			<UnderCover src={type ? type.image : undefined} hideCover={hideCover} />
-			<RecordWrapper popRecord={popRecord} onClick={() => {
-						if (ready) {
-							if (
-								state === playerState.PAUSE ||
-								state === playerState.READY ||
-								state === playerState.FINISH
-							) {
-								play();
-							} else if (state === playerState.PLAYING) {
-								pause();
-							} else if (state === playerState.FINISH) {
-								// setMusic('/assets/mp3/city-lights.mp3');
-							}
+			<RecordWrapper
+				popRecord={popRecord}
+				onClick={() => {
+					if (ready) {
+						if (
+							state === playerState.PAUSE ||
+							state === playerState.READY ||
+							state === playerState.FINISH
+						) {
+							play();
+						} else if (state === playerState.PLAYING) {
+							pause();
+						} else if (state === playerState.FINISH) {
+							// setMusic('/assets/mp3/city-lights.mp3');
 						}
-					}}>
-				<Record
-					ref={recordRef}
-					src={type ? type.diskImage : undefined}
-					
-				/>
+					}
+				}}
+			>
+				<Record ref={recordRef} src={type ? type.diskImage : undefined} />
 			</RecordWrapper>
 
 			<Cover
@@ -149,17 +148,21 @@ const Disk = ({key, type ,tilt,setMusicSelected,setBackground,musicSelected, ...
 						{type.title}
 					</Cursive>
 				</TitleContainer>
-				<Author src="/assets/author.png" />
+				<Author src={process.env.PUBLIC_URL + '/assets/author.png'} />
 			</Cover>
 		</Container>
 	) : (
-		<Container ref={containerRef} selected={selected} tilt={tilt} onClick={() => {
-			setBackground(type.background)
-			setSelected(true)
-			setMusicSelected(type.id);
-		}}
-		onMouseEnter={mouseenterHandler}
-		onMouseLeave={mouseleaveHandler}
+		<Container
+			ref={containerRef}
+			selected={selected}
+			tilt={tilt}
+			onClick={() => {
+				setBackground(type.background);
+				setSelected(true);
+				setMusicSelected(type.id);
+			}}
+			onMouseEnter={mouseenterHandler}
+			onMouseLeave={mouseleaveHandler}
 		>
 			<Cover src={type.image}>
 				<TitleContainer>
@@ -167,7 +170,7 @@ const Disk = ({key, type ,tilt,setMusicSelected,setBackground,musicSelected, ...
 						{type.title}
 					</Cursive>
 				</TitleContainer>
-				<Author src="/assets/author.png" />
+				<Author src={process.env.PUBLIC_URL + '/assets/author.png'} />
 			</Cover>
 		</Container>
 	);
@@ -183,7 +186,7 @@ const RecordWrapper = styled.div<{ popRecord: boolean }>`
 	height: 100%;
 	transition: all 1s cubic-bezier(0.4, 0.78, 0.26, -0.74);
 	transform: ${({ popRecord }) => (popRecord ? 'translateX(20vw)' : null)};
-	@media screen and (max-width: 1070px){
+	@media screen and (max-width: 1070px) {
 		transform: none;
 	}
 `;
@@ -207,9 +210,9 @@ const Cover = styled.div<{ src: string | undefined; clicked?: boolean; hideCover
 	transform: ${({ clicked, hideCover }) =>
 		hideCover ? 'translateX(-20vw)' : clicked ? 'rotate3d(0, 1, 0, -30deg)' : null};
 	border-radius: 5px;
-	@media screen and (max-width: 1070px){
-		transform : ${({ clicked, hideCover }) =>
-		hideCover ? 'rotate3d(0, 1, 0, 0deg)' : clicked ? 'rotate3d(0, 1, 0, -180deg)' : null};
+	@media screen and (max-width: 1070px) {
+		transform: ${({ clicked, hideCover }) =>
+			hideCover ? 'rotate3d(0, 1, 0, 0deg)' : clicked ? 'rotate3d(0, 1, 0, -180deg)' : null};
 	}
 `;
 const UnderCover = styled.img<{ hideCover: boolean }>`
@@ -220,41 +223,44 @@ const UnderCover = styled.img<{ hideCover: boolean }>`
 
 	transform: ${({ hideCover }) => (hideCover ? 'translateX(-20vw)' : null)};
 	transition: all 0.5s ease;
-	@media screen and (max-width: 1070px){
-		transform : none;
+	@media screen and (max-width: 1070px) {
+		transform: none;
 	}
 `;
 
-const Container = styled.div<{selected : boolean , tilt? : string}>`
+const Container = styled.div<{ selected: boolean; tilt?: string }>`
 	position: relative;
-	font-size : 100%;
-	transition : all 0.5s ease;
+	font-size: 100%;
+	transition: all 0.5s ease;
 	transform-style: preserve-3d;
 
-	${({selected , tilt}) => selected ? {
-		width: 'max(min(40vh,40vw),400px)',
-		height : 'max(min(40vh,40vw) , 400px)',
-		cursor: 'pointer',
-		position : 'fixed',
-		top : 'calc(50vh - max(min(40vh,40vw) , 400px)/2)',
-		left:'calc(50vw - max(min(40vh,40vw) , 400px)/2)',
+	${({ selected, tilt }) =>
+		selected
+			? {
+					width: 'max(min(40vh,40vw),400px)',
+					height: 'max(min(40vh,40vw) , 400px)',
+					cursor: 'pointer',
+					position: 'fixed',
+					top: 'calc(50vh - max(min(40vh,40vw) , 400px)/2)',
+					left: 'calc(50vw - max(min(40vh,40vw) , 400px)/2)'
+			  }
+			: {
+					width: '20rem',
+					height: '20rem',
+					marginRight: '20px',
 
-	} : {
-		width: '20rem',
-		height: '20rem',
-		marginRight: '20px',
-		
-		transform : tilt === 'left' ? 'perspective(300px) rotateY(20deg)  translateZ(-100px)' :
-		tilt === 'right' ? 'perspective(300px) rotateY(-20deg) translateZ(-100px)' : 'perspective(300px) translateZ(-100px)',
-		cursor : 'pointer',
-		opacity : '0.6',
-		'&:hover' : {
-			opacity : '1'
-		}
-		
-	}}
-
-
+					transform:
+						tilt === 'left'
+							? 'perspective(300px) rotateY(20deg)  translateZ(-100px)'
+							: tilt === 'right'
+							? 'perspective(300px) rotateY(-20deg) translateZ(-100px)'
+							: 'perspective(300px) translateZ(-100px)',
+					cursor: 'pointer',
+					opacity: '0.6',
+					'&:hover': {
+						opacity: '1'
+					}
+			  }}
 `;
 //vis 1 ,2 , 3 , 4
 // [ 1, 2, 3, 4, 5, 6, 7]
