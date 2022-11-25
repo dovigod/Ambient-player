@@ -7,7 +7,7 @@ As target user are developer and writer who usally spend much time sitting in fr
 As a lover of Lofi & vinyl musics, I want to make this. Ah.. lack of logics..
 <p align="center">
  <img width="800" alt="abp" src="https://user-images.githubusercontent.com/30416914/203915284-9680178b-270b-4ea7-b8d0-8ce8944fe2bf.png">
-</p
+</p>
 
 ## 🔗 Links
 https://dovigod.github.io/Ambient-player/
