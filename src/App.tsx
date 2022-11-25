@@ -5,7 +5,7 @@ import Routes from 'routes/index';
 import AxiosClient from 'utils/AxiosClient';
 
 
-
+// depreacted for timeout
 function App() {
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition(

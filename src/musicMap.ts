@@ -1,12 +1,4 @@
-export interface MusicMapType {
-	id: number;
-	type: string;
-	background: string;
-	music: string;
-	image: string;
-	diskImage: string;
-	title: string;
-}
+import {MusicMapType} from 'types'
 const DISK_IMAGE = process.env.PUBLIC_URL + '/assets/disk/';
 const COVER_IMAGE = process.env.PUBLIC_URL + '/assets/cover/';
 

@@ -1,13 +1,8 @@
 import { useContext, createContext, useState, ReactNode, useRef, useEffect ,useCallback} from 'react';
+import {playerState} from 'types'
 
 const playerContext = createContext<any | undefined | null>(null);
-export enum playerState {
-	INIT,
-	PLAYING,
-	PAUSE,
-	FINISH,
-	READY
-}
+
 export const PlayerContextProvider = ({ children }: { children: ReactNode }) => {
 	const [player, _] = useState(new Audio());
 	const [state, setState] = useState<playerState>(playerState.INIT);

@@ -1,20 +1,10 @@
-import { useState, useRef, useEffect, useCallback, Key } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Cursive from 'components/Basics/Cursive';
-import { usePlayer, playerState } from 'hooks/usePlayer';
+import { usePlayer } from 'hooks/usePlayer';
 import useAnimationFrame from 'hooks/useAnimationFrame';
 import useOutsideDetector from 'hooks/useOutsideDetector';
-import { MusicMapType } from 'musicMap';
-
-interface DiskProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-	type: MusicMapType;
-	tilt?: string | undefined;
-	setMusicSelected: any;
-	setBackground: any;
-	musicSelected: number | null;
-	key: Key | null | undefined;
-	setShow: any;
-}
+import {playerState , DiskProps} from 'types';
 
 const Disk = ({ key, type, tilt, setMusicSelected, setBackground, musicSelected, setShow, ...rest }: DiskProps) => {
 	const [selected, setSelected] = useState(false);
@@ -43,7 +33,6 @@ const Disk = ({ key, type, tilt, setMusicSelected, setBackground, musicSelected,
 		},
 		musicSelected === type.id
 	);
-
 	const rotate = useCallback(() => {
 		if (recordRef.current) {
 			rotationRef.current += 1;
